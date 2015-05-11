@@ -23,69 +23,7 @@ ARM_TARBALL_URL="http://firmware.diydrones.com/Tools/PX4-tools/$ARM_TARBALL"
 # Ardupilot Tools
 ARDUPILOT_TOOLS="ardupilot/Tools/autotest"
 
-function maybe_prompt_user() {
-    if $ASSUME_YES; then
-        return 0
-    else
-        read -p "$1"
-        if [[ $REPLY =~ ^[Yy]$ ]]; then
-            return 0
-        else
-            return 1
-        fi
-    fi
-}
 
-
-OPTIND=1  # Reset in case getopts has been used previously in the shell.
-while getopts "y" opt; do
-    case "$opt" in
-        \?)
-            exit 1
-            ;;
-        y)  ASSUME_YES=true
-            ;;
-    esac
-done
-
-if $ASSUME_YES; then
-    APT_GET="sudo apt-get -qq --assume-yes"
-else
-    APT_GET="sudo apt-get"
-fi
-
-sudo usermod -a -G dialout $USER
-
-$APT_GET remove modemmanager
-$APT_GET update
-$APT_GET install $BASE_PKGS $SITL_PKGS $PX4_PKGS $UBUNTU64_PKGS $AVR_PKGS
-sudo pip -q install $PYTHON_PKGS
-
-
-if [ ! -d PX4Firmware ]; then
-    git clone https://github.com/diydrones/PX4Firmware.git
-fi
-
-if [ ! -d PX4NuttX ]; then
-    git clone https://github.com/diydrones/PX4NuttX.git
-fi
-
-if [ ! -d uavcan ]; then
-    git clone https://github.com/diydrones/uavcan.git
-fi
-
-if [ ! -d VRNuttX ]; then
-    git clone https://github.com/virtualrobotix/vrbrain_nuttx.git VRNuttX
-fi
-
-if [ ! -d $OPT/$ARM_ROOT ]; then
-    (
-        cd $OPT;
-        sudo wget $ARM_TARBALL_URL;
-        sudo tar xjf ${ARM_TARBALL};
-        sudo rm ${ARM_TARBALL};
-    )
-fi
 
 exportline="export PATH=$OPT/$ARM_ROOT/bin:\$PATH";
 if ! grep -Fxq "$exportline" ~/.profile ; then
