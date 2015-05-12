@@ -23,7 +23,18 @@ ARM_TARBALL_URL="http://firmware.diydrones.com/Tools/PX4-tools/$ARM_TARBALL"
 # Ardupilot Tools
 ARDUPILOT_TOOLS="ardupilot/Tools/autotest"
 
-
+function maybe_prompt_user() {
+    if $ASSUME_YES; then
+        return 0
+    else
+        read -p "$1"
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            return 0
+        else
+            return 1
+        fi
+    fi
+}
 
 exportline="export PATH=$OPT/$ARM_ROOT/bin:\$PATH";
 if ! grep -Fxq "$exportline" ~/.profile ; then

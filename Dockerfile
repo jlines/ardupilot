@@ -12,7 +12,7 @@ RUN apt-get update
 RUN apt-get install -y git wget
 
 # Clone the conf files into the docker container
-RUN git clone https://github.com/diydrones/ardupilot.git /usr/local/src/ardupilot
+RUN git clone -b jlines https://github.com/jlines/ardupilot.git /usr/local/src/ardupilot
 
 RUN /usr/local/src/ardupilot/Tools/scripts/install-prereqs-ubuntu.sh -y
 #RUN -w /usr/local/src/ardupilot/Copter make configure
