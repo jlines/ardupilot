@@ -1055,6 +1055,7 @@ static void load_parameters(void)
     if (!g.format_version.load() ||
         g.format_version != Parameters::k_format_version) {
 
+        cliSerial->printf_P(PSTR("Loadability: %d\n"),(int)g.format_version.load());
         // erase all parameters
         cliSerial->printf_P(PSTR("Firmware change: erasing EEPROM...\n"));
         AP_Param::erase_all();
