@@ -9,7 +9,8 @@ RUN dpkg --add-architecture i386
 RUN apt-get update
 
 # Install software 
-RUN apt-get install -y git wget build-essential python-pip python-matplotlib python-serial python-wxgtk2.8 python-lxml python-scipy python-opencv ccache gawk git python-pip python-pexpect
+
+RUN apt-get install -y gawk wget screen make git arduino-core curl g++ python-pip python-matplotlib python-serial python-wxgtk2.8 python-scipy python-opencv python-numpy python-pyparsing ccache gcc-avr binutils-avr avr-libc python-serial python-argparse openocd flex bison libncurses5-dev autoconf texinfo build-essential libftdi-dev libtool zlib1g-dev zip genromfs libc6:i386 libgcc1:i386 gcc-4.6-base:i386 libstdc++5:i386 libstdc++6:i386
 
 # Clone the conf files into the docker container
 RUN git clone -b jlines https://github.com/jlines/ardupilot.git /usr/local/src/ardupilot
